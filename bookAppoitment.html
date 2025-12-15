@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Lucknow Hospital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .appointment-header {
+            background: linear-gradient(135deg, #0fa89a, #12c7b7);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .appointment-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+
+        .appointment-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .back-home {
+            display: inline-block;
+            margin-top: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 25px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: white;
+            color: #12c7b7;
+        }
+
+        /* Appointment Container */
+        .appointment-container {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 40px;
+        }
+
+        /* Form Styles */
+        .appointment-form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-title {
+            color: #12c7b7;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #12c7b7;
+            background-color: white;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 45px;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: #12c7b7;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background-color: #0fa89a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(18, 199, 183, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #555;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Sidebar Styles */
+        .appointment-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-card h3 {
+            color: #12c7b7;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card h3 i {
+            font-size: 1.2rem;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            padding: 12px 0;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-list .day {
+            color: #555;
+        }
+
+        .info-list .time {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .doctor-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f9f9f9;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            background: white;
+            border-color: #12c7b7;
+        }
+
+        .doctor-card.active {
+            background: white;
+            border-color: #12c7b7;
+        }
+
+        .doctor-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctor-info h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .doctor-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Success Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            animation: modalAppear 0.5s ease;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            color: #12c7b7;
+            margin-bottom: 20px;
+        }
+
+        .modal-content h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .appointment-details {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+            margin: 25px 0;
+        }
+
+        .appointment-details h4 {
+            color: #12c7b7;
+            margin-bottom: 15px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #777;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Footer */
+        .appointment-footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #12c7b7;
+        }
+
+        .copyright {
+            color: #aaa;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .appointment-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .appointment-sidebar {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .appointment-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .appointment-form-container {
+                padding: 30px 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .appointment-header {
+                padding: 40px 15px;
+            }
+            
+            .appointment-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .info-card {
+                padding: 20px 15px;
+            }
+            
+            .doctor-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Form Validation Styles */
+        .form-control.error {
+            border-color: #e74c3c;
+            background-color: #fff5f5;
+        }
+
+        .form-control.success {
+            border-color: #2ecc71;
+        }
+
+        /* Loading State */
+        .btn.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .btn.loading::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Time Slot Selection */
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .time-slot {
+            padding: 10px;
+            text-align: center;
+            background: #f0f0f0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .time-slot:hover {
+            background: #e0e0e0;
+        }
+
+        .time-slot.selected {
+            background: #12c7b7;
+            color: white;
+            border-color: #0fa89a;
+        }
+
+        .time-slot.booked {
+            background: #ffebee;
+            color: #c62828;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="appointment-header">
+        <h1>Book Your Appointment</h1>
+        <p>Schedule your visit with our expert doctors. Fill out the form below to book your appointment at Lucknow Hospital.</p>
+        <a href="index.html" class="back-home">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </header>
+
+    <!-- Main Appointment Section -->
+    <div class="appointment-container">
+        <!-- Appointment Form -->
+        <div class="appointment-form-container">
+            <h2 class="form-title">Patient Information</h2>
+            <form id="appointmentForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName" class="required">Full Name</label>
+                        <input type="text" id="fullName" class="form-control" placeholder="Enter your full name">
+                        <div class="error-message" id="nameError">Please enter your full name</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="required">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number">
+                        <div class="error-message" id="phoneError">Please enter a valid 10-digit phone number</div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email" class="required">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email">
+                        <div class="error-message" id="emailError">Please enter a valid email address</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="age" class="required">Age</label>
+                        <input type="number" id="age" class="form-control" placeholder="Enter your age" min="1" max="120">
+                        <div class="error-message" id="ageError">Please enter a valid age (1-120)</div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gender" class="required">Gender</label>
+                        <select id="gender" class="form-control">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="error-message" id="genderError">Please select your gender</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date" class="required">Appointment Date</label>
+                        <input type="date" id="date" class="form-control">
+                        <div class="error-message" id="dateError">Please select a future date</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="department" class="required">Department</label>
+                    <select id="department" class="form-control">
+                        <option value="">Select Department</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="neurology">Neurology</option>
+                        <option value="orthopedics">Orthopedics</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="dermatology">Dermatology</option>
+                        <option value="dentistry">Dentistry</option>
+                        <option value="ophthalmology">Ophthalmology</option>
+                        <option value="general">General Medicine</option>
+                    </select>
+                    <div class="error-message" id="departmentError">Please select a department</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="doctor" class="required">Select Doctor</label>
+                    <select id="doctor" class="form-control" disabled>
+                        <option value="">First select a department</option>
+                    </select>
+                    <div class="error-message" id="doctorError">Please select a doctor</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="timeSlot" class="required">Preferred Time Slot</label>
+                    <div class="time-slots" id="timeSlots">
+                        <!-- Time slots will be generated by JavaScript -->
+                    </div>
+                    <div class="error-message" id="timeError">Please select a time slot</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="symptoms">Symptoms / Reason for Visit</label>
+                    <textarea id="symptoms" class="form-control" placeholder="Describe your symptoms or reason for appointment..."></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <i class="fas fa-calendar-check"></i> Book Appointment
+                    </button>
+                    <button type="reset" class="btn btn-secondary" id="resetBtn">
+                        <i class="fas fa-redo"></i> Reset Form
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Sidebar Information -->
+        <div class="appointment-sidebar">
+            <div class="info-card">
+                <h3><i class="fas fa-clock"></i> Working Hours</h3>
+                <ul class="info-list">
+                    <li>
+                        <span class="day">Monday - Friday</span>
+                        <span class="time">8:00 AM - 7:00 PM</span>
+                    </li>
+                    <li>
+                        <span class="day">Saturday</span>
+                        <span class="time">9:00 AM - 5:00 PM</span>
+                    </li>
+                    <li>
+                        <span class="day">Sunday</span>
+                        <span class="time">Emergency Only</span>
+                    </li>
+                    <li>
+                        <span class="day">Emergency</span>
+                        <span class="time">24/7 Available</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="info-card">
+                <h3><i class="fas fa-user-md"></i> Available Doctors</h3>
+                <div id="doctorsList">
+                    <!-- Doctors will be loaded by JavaScript -->
+                    <p>Select a department to see available doctors</p>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <h3><i class="fas fa-info-circle"></i> Important Information</h3>
+                <ul style="list-style: disc; padding-left: 20px; color: #666;">
+                    <li>Please arrive 15 minutes before your appointment</li>
+                    <li>Bring your ID proof and insurance card</li>
+                    <li>Cancellation must be made 24 hours in advance</li>
+                    <li>Emergency cases will be prioritized</li>
+                    <li>Masks are mandatory inside the hospital</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Appointment Booked Successfully!</h2>
+            <p>Your appointment has been scheduled. You will receive a confirmation email shortly.</p>
+            
+            <div class="appointment-details" id="appointmentDetails">
+                <!-- Appointment details will be inserted here -->
+            </div>
+            
+            <button class="btn btn-primary" id="closeModal">
+                <i class="fas fa-print"></i> Print Appointment
+            </button>
+            <button class="btn btn-secondary" id="newAppointment" style="margin-top: 10px;">
+                <i class="fas fa-plus"></i> Book Another Appointment
+            </button>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="appointment-footer">
+        <h3>Lucknow Hospital</h3>
+        <p>Institute of Nursing & Paramedical Science</p>
+        
+        <div class="footer-links">
+            <a href="#"><i class="fas fa-phone"></i> Emergency: +91 9682957154</a>
+            <a href="mailto:ssivamyadav0123@gmail.com"><i class="fas fa-envelope"></i> Email Us</a>
+            <a href="#"><i class="fas fa-map-marker-alt"></i> Krishna Nagar, Lucknow</a>
+        </div>
+        
+        <p class="copyright">
+            <i class="fas fa-copyright"></i>  2025 Lucknow Hospital Developed by <span>Shivam</span> All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        // Doctor data
+        const doctors = {
+            cardiology: [
+                { id: 1, name: "Dr. Rajesh Sharma", specialization: "Cardiologist", experience: "15 years", available: true },
+                { id: 2, name: "Dr. Priya Singh", specialization: "Heart Specialist", experience: "12 years", available: true }
+            ],
+            neurology: [
+                { id: 3, name: "Dr. Amit Verma", specialization: "Neurologist", experience: "18 years", available: true },
+                { id: 4, name: "Dr. Neha Gupta", specialization: "Neurosurgeon", experience: "10 years", available: true }
+            ],
+            orthopedics: [
+                { id: 5, name: "Dr. Sunil Kumar", specialization: "Orthopedic Surgeon", experience: "20 years", available: true },
+                { id: 6, name: "Dr. Anjali Mishra", specialization: "Joint Specialist", experience: "8 years", available: true }
+            ],
+            pediatrics: [
+                { id: 7, name: "Dr. Ritu Singh", specialization: "Pediatrician", experience: "14 years", available: true },
+                { id: 8, name: "Dr. Vijay Patel", specialization: "Child Specialist", experience: "9 years", available: true }
+            ],
+            dermatology: [
+                { id: 9, name: "Dr. Sneha Roy", specialization: "Dermatologist", experience: "11 years", available: true },
+                { id: 10, name: "Dr. Arjun Mehta", specialization: "Skin Specialist", experience: "7 years", available: true }
+            ],
+            dentistry: [
+                { id: 11, name: "Dr. Preeti Das", specialization: "Dentist", experience: "13 years", available: true },
+                { id: 12, name: "Dr. Rohit Jain", specialization: "Oral Surgeon", experience: "6 years", available: true }
+            ],
+            ophthalmology: [
+                { id: 13, name: "Dr. Sanjay Kapoor", specialization: "Ophthalmologist", experience: "16 years", available: true },
+                { id: 14, name: "Dr. Maya Reddy", specialization: "Eye Specialist", experience: "10 years", available: true }
+            ],
+            general: [
+                { id: 15, name: "Dr. Alok Tiwari", specialization: "General Physician", experience: "22 years", available: true },
+                { id: 16, name: "Dr. Kavita Sharma", specialization: "Family Doctor", experience: "17 years", available: true }
+            ]
+        };
+
+        // Time slots
+        const timeSlots = [
+            "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM",
+            "11:00 AM", "11:30 AM", "02:00 PM", "02:30 PM",
+            "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM",
+            "05:00 PM", "05:30 PM"
+        ];
+
+        // Booked appointments (simulated data)
+        const bookedAppointments = [
+            { date: getFormattedDate(new Date()), time: "10:00 AM", doctorId: 1 },
+            { date: getFormattedDate(new Date()), time: "02:30 PM", doctorId: 3 },
+            { date: getFormattedDate(new Date(Date.now() + 86400000)), time: "11:00 AM", doctorId: 5 }
+        ];
+
+        // DOM Elements
+        const appointmentForm = document.getElementById('appointmentForm');
+        const departmentSelect = document.getElementById('department');
+        const doctorSelect = document.getElementById('doctor');
+        const timeSlotsContainer = document.getElementById('timeSlots');
+        const doctorsListContainer = document.getElementById('doctorsList');
+        const successModal = document.getElementById('successModal');
+        const appointmentDetails = document.getElementById('appointmentDetails');
+        const submitBtn = document.getElementById('submitBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const closeModalBtn = document.getElementById('closeModal');
+        const newAppointmentBtn = document.getElementById('newAppointment');
+
+        // Initialize time slots
+        function initializeTimeSlots() {
+            timeSlotsContainer.innerHTML = '';
+            timeSlots.forEach(slot => {
+                const slotElement = document.createElement('div');
+                slotElement.className = 'time-slot';
+                slotElement.textContent = slot;
+                slotElement.dataset.time = slot;
+                
+                // Check if slot is booked
+                const isBooked = bookedAppointments.some(apt => 
+                    apt.date === getFormattedDate(new Date(document.getElementById('date').value)) && 
+                    apt.time === slot
+                );
+                
+                if (isBooked) {
+                    slotElement.classList.add('booked');
+                    slotElement.style.cursor = 'not-allowed';
+                } else {
+                    slotElement.addEventListener('click', function() {
+                        // Remove selected class from all slots
+                        document.querySelectorAll('.time-slot').forEach(s => {
+                            s.classList.remove('selected');
+                        });
+                        // Add selected class to clicked slot
+                        this.classList.add('selected');
+                        document.getElementById('timeError').style.display = 'none';
+                    });
+                }
+                
+                timeSlotsContainer.appendChild(slotElement);
+            });
+        }
+
+        // Update doctors based on department selection
+        departmentSelect.addEventListener('change', function() {
+            const department = this.value;
+            
+            // Enable doctor select
+            doctorSelect.disabled = !department;
+            
+            if (department) {
+                // Clear previous options
+                doctorSelect.innerHTML = '<option value="">Select Doctor</option>';
+                
+                // Add doctors for selected department
+                doctors[department].forEach(doctor => {
+                    const option = document.createElement('option');
+                    option.value = doctor.id;
+                    option.textContent = `${doctor.name} - ${doctor.specialization}`;
+                    doctorSelect.appendChild(option);
+                });
+                
+                // Update doctors list in sidebar
+                updateDoctorsList(department);
+                
+                // Clear error
+                document.getElementById('departmentError').style.display = 'none';
+            } else {
+                doctorSelect.innerHTML = '<option value="">First select a department</option>';
+                doctorsListContainer.innerHTML = '<p>Select a department to see available doctors</p>';
+            }
+        });
+
+        // Update doctors list in sidebar
+        function updateDoctorsList(department) {
+            doctorsListContainer.innerHTML = '';
+            
+            doctors[department].forEach(doctor => {
+                const doctorCard = document.createElement('div');
+                doctorCard.className = 'doctor-card';
+                doctorCard.dataset.id = doctor.id;
+                
+                // Doctor image (placeholder with initials)
+                const initials = doctor.name.split(' ').map(n => n[0]).join('');
+                doctorCard.innerHTML = `
+                    <div style="width: 70px; height: 70px; border-radius: 50%; background: #12c7b7; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">
+                        ${initials}
+                    </div>
+                    <div class="doctor-info">
+                        <h4>${doctor.name}</h4>
+                        <p>${doctor.specialization}</p>
+                        <p style="font-size: 12px; color: #888;">Experience: ${doctor.experience}</p>
+                    </div>
+                `;
+                
+                // Add click event to select doctor
+                doctorCard.addEventListener('click', function() {
+                    doctorSelect.value = doctor.id;
+                    
+                    // Update active state
+                    document.querySelectorAll('.doctor-card').forEach(card => {
+                        card.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    document.getElementById('doctorError').style.display = 'none';
+                });
+                
+                doctorsListContainer.appendChild(doctorCard);
+            });
+        }
+
+        // Form validation
+        function validateForm() {
+            let isValid = true;
+            
+            // Reset all errors
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.style.display = 'none';
+            });
+            
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.classList.remove('error', 'success');
+            });
+            
+            // Validate full name
+            const fullName = document.getElementById('fullName');
+            if (!fullName.value.trim()) {
+                document.getElementById('nameError').style.display = 'block';
+                fullName.classList.add('error');
+                isValid = false;
+            } else {
+                fullName.classList.add('success');
+            }
+            
+            // Validate phone
+            const phone = document.getElementById('phone');
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(phone.value)) {
+                document.getElementById('phoneError').style.display = 'block';
+                phone.classList.add('error');
+                isValid = false;
+            } else {
+                phone.classList.add('success');
+            }
+            
+            // Validate email
+            const email = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                document.getElementById('emailError').style.display = 'block';
+                email.classList.add('error');
+                isValid = false;
+            } else {
+                email.classList.add('success');
+            }
+            
+            // Validate age
+            const age = document.getElementById('age');
+            if (!age.value || age.value < 1 || age.value > 120) {
+                document.getElementById('ageError').style.display = 'block';
+                age.classList.add('error');
+                isValid = false;
+            } else {
+                age.classList.add('success');
+            }
+            
+            // Validate gender
+            const gender = document.getElementById('gender');
+            if (!gender.value) {
+                document.getElementById('genderError').style.display = 'block';
+                gender.classList.add('error');
+                isValid = false;
+            } else {
+                gender.classList.add('success');
+            }
+            
+            // Validate date
+            const date = document.getElementById('date');
+            const selectedDate = new Date(date.value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (!date.value || selectedDate < today) {
+                document.getElementById('dateError').style.display = 'block';
+                date.classList.add('error');
+                isValid = false;
+            } else {
+                date.classList.add('success');
+            }
+            
+            // Validate department
+            const department = document.getElementById('department');
+            if (!department.value) {
+                document.getElementById('departmentError').style.display = 'block';
+                department.classList.add('error');
+                isValid = false;
+            } else {
+                department.classList.add('success');
+            }
+            
+            // Validate doctor
+            const doctor = document.getElementById('doctor');
+            if (!doctor.value || doctor.disabled) {
+                document.getElementById('doctorError').style.display = 'block';
+                doctor.classList.add('error');
+                isValid = false;
+            } else {
+                doctor.classList.add('success');
+            }
+            
+            // Validate time slot
+            const selectedTimeSlot = document.querySelector('.time-slot.selected');
+            if (!selectedTimeSlot) {
+                document.getElementById('timeError').style.display = 'block';
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        // Format date to YYYY-MM-DD
+        function getFormattedDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Get doctor name by ID
+        function getDoctorName(id) {
+            for (const department in doctors) {
+                const doctor = doctors[department].find(d => d.id == id);
+                if (doctor) return doctor.name;
+            }
+            return 'Unknown Doctor';
+        }
+
+        // Get department name by doctor ID
+        function getDepartmentByDoctorId(id) {
+            for (const department in doctors) {
+                const doctor = doctors[department].find(d => d.id == id);
+                if (doctor) return department;
+            }
+            return 'Unknown Department';
+        }
+
+        // Format date for display
+        function formatDisplayDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        // Handle form submission
+        appointmentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (validateForm()) {
+                // Show loading state
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Get form data
+                    const formData = {
+                        name: document.getElementById('fullName').value,
+                        phone: document.getElementById('phone').value,
+                        email: document.getElementById('email').value,
+                        age: document.getElementById('age').value,
+                        gender: document.getElementById('gender').value,
+                        date: document.getElementById('date').value,
+                        department: document.getElementById('department').value,
+                        doctorId: document.getElementById('doctor').value,
+                        doctorName: getDoctorName(document.getElementById('doctor').value),
+                        time: document.querySelector('.time-slot.selected').dataset.time,
+                        symptoms: document.getElementById('symptoms').value,
+                        appointmentId: 'APT' + Date.now().toString().slice(-8)
+                    };
+                    
+                    // Update appointment details in modal
+                    appointmentDetails.innerHTML = `
+                        <h4>Appointment Details</h4>
+                        <div class="detail-row">
+                            <span class="detail-label">Appointment ID:</span>
+                            <span class="detail-value">${formData.appointmentId}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Patient Name:</span>
+                            <span class="detail-value">${formData.name}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Date:</span>
+                            <span class="detail-value">${formatDisplayDate(formData.date)}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Time:</span>
+                            <span class="detail-value">${formData.time}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Doctor:</span>
+                            <span class="detail-value">${formData.doctorName}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Department:</span>
+                            <span class="detail-value">${formData.department.charAt(0).toUpperCase() + formData.department.slice(1)}</span>
+                        </div>
+                    `;
+                    
+                    // Show success modal
+                    successModal.style.display = 'flex';
+                    
+                    // Reset loading state
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                }, 1500);
+            }
+        });
+
+        // Handle form reset
+        resetBtn.addEventListener('click', function() {
+            // Clear all errors
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.style.display = 'none';
+            });
+            
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.classList.remove('error', 'success');
+            });
+            
+            // Clear selected time slot
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            
+            // Reset doctor list
+            doctorsListContainer.innerHTML = '<p>Select a department to see available doctors</p>';
+            
+            // Reset doctor select
+            doctorSelect.innerHTML = '<option value="">First select a department</option>';
+            doctorSelect.disabled = true;
+        });
+
+        // Handle modal close
+        closeModalBtn.addEventListener('click', function() {
+            // Print appointment
+            window.print();
+        });
+
+        // Handle new appointment
+        newAppointmentBtn.addEventListener('click', function() {
+            successModal.style.display = 'none';
+            appointmentForm.reset();
+            resetBtn.click(); // Trigger reset to clear everything
+        });
+
+        // Initialize date picker with tomorrow as minimum
+        document.getElementById('date').min = getFormattedDate(new Date(Date.now() + 86400000));
+        
+        // Initialize time slots
+        initializeTimeSlots();
+        
+        // Update time slots when date changes
+        document.getElementById('date').addEventListener('change', initializeTimeSlots);
+
+        // Add some sample booked appointments for today
+        window.onload = function() {
+            // Set minimum date to tomorrow
+            const tomorrow = new Date(Date.now() + 86400000);
+            document.getElementById('date').value = getFormattedDate(tomorrow);
+            
+            // Initialize time slots for tomorrow
+            initializeTimeSlots();
+        };
+    </script>
+</body>
+</html>
